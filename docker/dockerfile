@@ -1,0 +1,39 @@
+# Use a recent official Go image as the base. This provides the Go toolchain.
+FROM golang:1.24
+
+# Arguments for easy version management of Terraform and Packer.
+# You can update these values when building the image.
+ARG TERRAFORM_VERSION=1.13.0
+ARG PACKER_VERSION=1.14.1
+
+# Set the working directory for all subsequent commands.
+WORKDIR /usr/local/bin
+
+# Install necessary system packages: git for cloning, curl for downloads,
+# and unzip for extracting the binaries.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    unzip \
+    nmap \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Terraform.
+RUN curl -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip /tmp/terraform.zip -d /usr/local/bin && \
+    rm /tmp/terraform.zip
+
+# Install Packer.
+RUN curl -o /tmp/packer.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
+    unzip -o /tmp/packer.zip -d /usr/local/bin && \
+    rm /tmp/packer.zip
+
+# Clone the latest Cluster Toolkit repository.
+WORKDIR /app
+RUN git clone https://github.com/GoogleCloudPlatform/cluster-toolkit.git
+
+# Build the Cluster Toolkit binary.
+WORKDIR /app/cluster-toolkit
+RUN make
