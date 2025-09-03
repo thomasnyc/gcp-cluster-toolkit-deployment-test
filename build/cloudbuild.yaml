@@ -6,11 +6,6 @@ steps:
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}'
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    script: |
-    gcloud run deploy cloudrunservice --image us-docker.pkg.dev/cloudrun/container/hello --region us-central1 --platform managed
-
-
   - name: 'gcr.io/cloud-builders/docker'
     args: ['run', 'ls']
 #    args: ['run', 'us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0' ,'deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse']
