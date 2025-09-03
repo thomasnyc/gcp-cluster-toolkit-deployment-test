@@ -70,12 +70,15 @@ RUN cp /cluster-toolkit/gcluster /usr/local/bin/gcluster
 RUN echo $PATH
 
 # Create /out directory
-RUN mkdir /out
-WORKDIR /out
+RUN mkdir /cluster-toolkit/out
+WORKDIR /cluster-toolkit
 
 RUN echo "[global]" >> /etc/pip.conf
 RUN echo "break-system-packages = true" >> /etc/pip.conf
 
+ADD ../deploymentset /cluster-toolkit/
+RUN chmod +x /cluster=toolkit/*.sh
+
 # Command to execute when running the container (placeholder)
-ENTRYPOINT ["gcluster"]
-CMD ["--help"]
+# ENTRYPOINT ["gcluster"]
+# CMD ["--help"]
