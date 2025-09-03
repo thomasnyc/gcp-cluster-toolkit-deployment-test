@@ -1,36 +1,16 @@
 steps:
-  # Step 1: Build the Docker image from the 'docker' directory.
-  # This uses Cloud Build's native 'docker' builder.
-  - id: 'Build Docker image'
-    name: 'gcr.io/cloud-builders/docker'
-    dir: 'docker'
-    args: ['build', '-t', 'gcp-hpc-tools:latest', '.']
-
-steps:
   - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPOSITORY/IMAGE_NAME:TAG', '.']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'LOCATION-docker.pkg.dev/$PROJECT_ID/REPOSITORY/IMAGE_NAME:TAG']
+    script: |
+      docker build --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
+    automapSubstitutions: true
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}'
 
-  # Step 2: Create a directory.
-  # This uses a simple shell command within a builder.
-  - id: 'Create deployment folder'
-    name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args: ['-c', 'mkdir deploymentfolder']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    script: |
+    gcloud run deploy cloudrunservice --image us-docker.pkg.dev/cloudrun/container/hello --region us-central1 --platform managed
 
-  # Step 3 & 4: Run the cluster toolkit deployment.
-  # This step uses the custom-built image to execute the cluster toolkit command.
-  # Note: Cloud Build handles authentication automatically, so you don't need to mount a keys file.
-  # File volumes are also handled differently via the workspace.
-  - id: 'Run cluster-toolkit deploy'
-    name: 'gcp-hpc-tools:latest'
-    entrypoint: '/bin/bash'
-    args:
-      - '-c'
-      - |
-        ./gcluster deploy \
-          -d deploymentset/a3mega-slurm-deployment-thomashk.yaml \
-          deploymentset/a3mega-lustre-slurm-blueprint.yaml \
-          -o deploymentfolder \
-          --auto-approve
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['run', 'ls']
+#    args: ['run', 'us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0' ,'deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse']
