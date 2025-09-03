@@ -29,7 +29,7 @@ Deployment folder is important for the cluster toolkit operation with gcluster c
 Mount the application-default json, deploymentset and deploymentfolder directory:
 ```bash
 ADC_PATH=/usr/local/google/home/xxxxx/.config/gcloud/application_default_credentials.json 
-sudo docker run -it -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/application_default_credentials.json -v ${ADC_PATH}:/tmp/keys/application_default_credentials.json:ro -v /usr/local/google/home/thomashk/Documents/deploymentfolder:/app/cluster-toolkit/deploymentfolder -v /usr/local/google/home/thomashk/Documents/gcp-cluster-toolkit-deployment-test/build/deploymentset/:/app/cluster-toolkit/deploymentset gcp-hpc-tools /bin/sh
+sudo docker run -it -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/application_default_credentials.json -v ${ADC_PATH}:/tmp/keys/application_default_credentials.json:ro -v /usr/local/google/home/thomashk/Documents/deploymentfolder:/cluster-toolkit/deploymentfolder -v /usr/local/google/home/thomashk/Documents/gcp-cluster-toolkit-deployment-test/build/deploymentset/:/cluster-toolkit/deploymentset gcp-hpc-tools /bin/sh
 ```
 3 different parts serve from the host machine to the container:
 * environment variable: GOOGLE_APPLICATION_CREDENTAILS
