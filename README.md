@@ -10,6 +10,8 @@ gcloud auth application-default login
 ```
 note: please note the location of the default_credentials.json: eg: /usr/local/google/home/xxxxxx/.config/gcloud/application_default_credentials.json
 
+# * Running on local machine
+
 ## Create the docker image from the dockerfile
 ```bash
 cd docker
@@ -38,3 +40,9 @@ sudo docker run -it -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/application_defa
 ```bash
 ./gcluster deploy -d deploymentset/a3mega-slurm-deployment-thomashk.yaml deploymentset/a3mega-lustre-slurm-blueprint.yaml -o deploymentfolder  --auto-approve
 ```
+# * using Cloud Build to create the docker image and store into Artifact Registry
+
+```bash
+gcloud builds submit --project=thomashk-mig --config cloudbuild.yaml --substitutions=_GHPC_VERSION=1.64.0
+```
+
