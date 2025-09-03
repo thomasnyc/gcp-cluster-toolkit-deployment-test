@@ -76,8 +76,6 @@ WORKDIR /cluster-toolkit
 RUN echo "[global]" >> /etc/pip.conf
 RUN echo "break-system-packages = true" >> /etc/pip.conf
 
-ADD ../deploymentset /cluster-toolkit/
-RUN chmod +x /cluster=toolkit/*.sh
 
 # Command to execute when running the container (placeholder)
 # ENTRYPOINT ["gcluster"]
