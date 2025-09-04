@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Test with command to replace application-default
+
+curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google"
+curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email" -H "Metadata-Flavor: Google"
+
+
 # Exit immediately if a command exits with a non-zero status.
 set -e
 

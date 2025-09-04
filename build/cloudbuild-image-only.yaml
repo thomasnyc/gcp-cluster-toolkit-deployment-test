@@ -18,9 +18,11 @@
 # VERSION should correspond to the tag of the release
 
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  script: |
-    docker build --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
-  automapSubstitutions: true
-images:
-- 'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}'
+  - name: 'gcr.io/cloud-builders/docker'
+    script: |
+      docker build --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
+    automapSubstitutions: true
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 
+           'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}']
