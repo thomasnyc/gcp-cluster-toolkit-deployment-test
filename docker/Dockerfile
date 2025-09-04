@@ -34,28 +34,28 @@ RUN apt-get update && \
         python3-pip
 
 # Install Terraform
-ARG TERRAFORM_VERSION=1.5.2
+ARG TERRAFORM_VERSION=1.13.1
 RUN wget -q "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -O terraform.zip && \
-    unzip terraform.zip && \
+    unzip -o terraform.zip && \
     mv terraform /usr/local/bin/ && \
     rm terraform.zip
 
 # Install Packer
-ARG PACKER_VERSION=1.8.6
+ARG PACKER_VERSION=1.14.1
 RUN wget -q "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip" -O packer.zip && \
-    unzip packer.zip && \
+    unzip -o packer.zip && \
     mv packer /usr/local/bin/ && \
     rm packer.zip
 
 # Install Go
-ARG GO_VERSION=1.23.0
+ARG GO_VERSION=1.25.0
 RUN wget -q "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" -O go.tar.gz && \
     tar -C /usr/local -xzf go.tar.gz && \
     rm go.tar.gz
 
 # Set GOPATH and add to PATH
-ENV GOPATH /go
-ENV PATH $PATH:/usr/local/go/bin:$GOPATH/bin
+ENV GOPATH=/go
+ENV PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Clone the Cluster Toolkit repository
 ARG CLUSTER_TOOLKIT_REF=main
@@ -75,7 +75,6 @@ WORKDIR /cluster-toolkit
 
 RUN echo "[global]" >> /etc/pip.conf
 RUN echo "break-system-packages = true" >> /etc/pip.conf
-
 
 # Command to execute when running the container (placeholder)
 # ENTRYPOINT ["gcluster"]
