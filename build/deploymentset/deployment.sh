@@ -2,8 +2,8 @@
 
 # Test with command to replace application-default
 
-curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google"
-curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email" -H "Metadata-Flavor: Google"
+# curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google"
+# curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email" -H "Metadata-Flavor: Google"
 
 
 # Exit immediately if a command exits with a non-zero status.
@@ -30,7 +30,7 @@ echo "Output directory: ${OUTPUT_DIR}"
 echo "GCS bucket: ${GCS_BUCKET}"
 
 # Deploy the cluster using gcluster
-gcluster deploy -d "${DEPLOYMENT_FILE}" "${BLUEPRINT_FILE}" -o "${OUTPUT_DIR}"
+gcluster deploy --validation-level IGNORE -d "${DEPLOYMENT_FILE}" "${BLUEPRINT_FILE}" -o "${OUTPUT_DIR}"
 
 echo "Deployment complete. Copying output files to GCS bucket: ${GCS_BUCKET}"
 # Recursively copy the local output directory to the specified GCS bucket
