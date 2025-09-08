@@ -32,7 +32,7 @@ echo "GCS bucket: ${GCS_BUCKET}"
 # Deploy the cluster using gcluster
 
 GOOGLE_APPLICATION_CREDENTIALS="/root/.config/gcloud/application_default_credentials.json"
-gcluster deploy -d "${DEPLOYMENT_FILE}" "${BLUEPRINT_FILE}" -o "${OUTPUT_DIR}"
+gcluster deploy -d "${DEPLOYMENT_FILE}" "${BLUEPRINT_FILE}" -o "${OUTPUT_DIR}" --auto-approve
 
 echo "Deployment complete. Copying output files to GCS bucket: ${GCS_BUCKET}"
 # Recursively copy the local output directory to the specified GCS bucket
