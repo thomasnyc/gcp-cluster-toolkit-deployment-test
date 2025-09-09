@@ -47,7 +47,17 @@ cd build
 gcloud builds submit --project=thomashk-mig --config cloudbuild-image-only.yaml --substitutions=_GHPC_VERSION=1.64.0
 ```
 
-# * using Cloud Build to create the fill Cluster environment:
+# * using Cloud Build to create the full Cluster environment:
 
 WIP
+
+build = use clustertoolkit image
+build_v2 = use gcluster image 
+
+
+```bash
+gcloud builds submit --project=thomashk-mig --config cloudbuild-image-only.yaml --substitutions=_GHPC_VERSION=1.64.0
+gcloud builds submit --project=thomashk -mig --timeout=7200 --config cloudbuild-deploymentonly.yaml
+```
+
 

@@ -1,15 +1,15 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     script: |
-      docker build --network=cloudbuild --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
+      docker build --network=cloudbuild --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/clustertoolkit-image:${_GHPC_VERSION} .
     automapSubstitutions: true
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 
-           'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}']
+           'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/clustertoolkit-image:${_GHPC_VERSION}']
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: bash
     args:
     - "-c"
-    - docker run --network=cloudbuild us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse
+    - docker run --network=cloudbuild us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/clustertoolkit-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse --auto-approve

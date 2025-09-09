@@ -3,7 +3,7 @@ steps:
     entrypoint: bash
     args:
     - "-c"
-    - docker run --network=cloudbuild us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse
+    - docker run --network=cloudbuild us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/clustertoolkit-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse
 
 # What did not work: 
 #    - docker run -v ~/.config/gcloud/:/root/.config/gcloud us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse
