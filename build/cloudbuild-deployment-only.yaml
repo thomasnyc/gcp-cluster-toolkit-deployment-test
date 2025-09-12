@@ -1,0 +1,12 @@
+steps:
+- name: 'us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0'
+  id: 'Deploy cluster w gcluster image'
+  entrypoint: 'gcluster'
+  args:
+    # THe 'deploy' command for creating a new cluster 
+    - 'deploy'
+    - '-d'
+    - 'deploymentset/a3mega-slurm-deployment-thomashk.yaml'
+    - '-w'
+    - 'deploymentset/a3mega-lustre-slurm-blueprint.yaml'
+    - '--auto-approve'

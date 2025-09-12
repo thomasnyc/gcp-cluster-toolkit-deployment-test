@@ -20,9 +20,9 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     script: |
-      docker build --network=cloudbuild --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
+      docker build --network=cloudbuild --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/clustertoolkit-image:${_GHPC_VERSION} .
     automapSubstitutions: true
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 
-           'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}']
+           'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/clustertoolkit-image:${_GHPC_VERSION}']

@@ -75,9 +75,9 @@ WORKDIR /cluster-toolkit
 RUN echo "[global]" >> /etc/pip.conf
 RUN echo "break-system-packages = true" >> /etc/pip.conf
 
-# Add in the deployment set - blueprint and yamls into the container image
 ADD deploymentset /cluster-toolkit/
+RUN chmod +x /cluster-toolkit/*.sh
 
 # Command to execute when running the container (placeholder)
-ENTRYPOINT ["gcluster"]
-CMD ["--help"]
+# ENTRYPOINT ["gcluster"]
+# CMD ["--help"]
