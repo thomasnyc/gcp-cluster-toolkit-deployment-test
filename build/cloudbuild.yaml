@@ -1,4 +1,5 @@
 steps:
+  steps:
   - name: 'gcr.io/cloud-builders/docker'
     script: |
       docker build --network=cloudbuild --build-arg=ref=${_GHPC_VERSION} -t us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION} .
@@ -8,8 +9,14 @@ steps:
     args: ['push', 
            'us-central1-docker.pkg.dev/$PROJECT_ID/clustertoolkit-docker-repo/gcluster-image:${_GHPC_VERSION}']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    entrypoint: bash
+  - name: 'us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0'
+    id: 'Deploy Slurm cluster '
+    entrypoint: 'gcluster'
     args:
-    - "-c"
-    - docker run --network=cloudbuild us-central1-docker.pkg.dev/thomashk-mig/clustertoolkit-docker-repo/gcluster-image:1.64.0 /bin/bash deployment.sh a3mega-slurm-deployment-thomashk.yaml a3mega-lustre-slurm-blueprint.yaml out thomashk-gcsfuse
+      # THe 'deploy' command for creating a new cluster 
+      - 'deploy'
+      - '-d'
+      - 'deploymentset/a3mega-slurm-deployment-thomashk.yaml'
+      - '-w'
+      - 'deploymentset/a3mega-lustre-slurm-blueprint.yaml'
+      - '--auto-approve'

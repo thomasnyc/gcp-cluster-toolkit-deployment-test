@@ -10,29 +10,39 @@
 This method leverage Cloud build for building the environment without using any of the local environment.
 
 
-There are 3 parts within the build directory:
-- dockerfile and cloudbuild-image-only.yaml : This is for building the docker image for gcluster operation. 
+There are 4 parts within the build directory:
+
+1. **Click to Deploy** cloudbuild.yaml : This is a "click-to-deploy" example including the image building and Cluster setup all in one cloud build yaml.
+
+
+Use of the command:
+```bash
+gcloud builds submit --project=<gcp project name> --config cloudbuild.yaml --substitutions=_GHPC_VERSION=1.64.0
+```
+
+2. **Image creation**  dockerfile and cloudbuild-image-only.yaml : This is for building the docker image for gcluster operation. 
 
 Use of the command: 
 ```bash
-gcloud builds submit --project=<your gcp project name> --config cloudbuild-image-only.yaml
+gcloud builds submit --project=<gcp project name> --config cloudbuild-image-only.yaml --substitutions=_GHPC_VERSION=1.64.0
 ```
-- cloudbuild-deployment-only.yaml : This is for deploying the cluster. 
+
+3. **Cluster Deployment** cloudbuild-deployment-only.yaml : This is for deploying the cluster. 
 There are 2 files needs to be modified:
 deploymentset/a3mega-slurm-deployment.yaml : This file has all the parameters required. Please make update accordingly.
 deploymentset/a3mega-lustre-slurm-blueprint.yaml : This blueprint file defines the cluster. In this example, it has managed lustre with a3 mega GPUs in a slurm cluster. 
 
 Use of the command: 
 ```bash
-gcloud builds submit --project=thomashk-mig --timeout=7200 --config cloudbuild-deployment-only.yaml
+gcloud builds submit --project=<gcp project name> --timeout=7200 --config cloudbuild-deployment-only.yaml
 ```
 
-- cloudbuild-destroy.yaml : This is for destory the cluster.
+4. **Destroy Cluster** cloudbuild-destroy.yaml : This is for destory the cluster.
 Please update the file with the deployment name of the cluster. eg: a3mega-lustre-base
 
 Use of the command:
 ```bash
-gcloud builds submit --project=<your gcp project name> --timeout=7200 --config cloudbuild-destroy.yaml
+gcloud builds submit --project=<gcp project name> --timeout=7200 --config cloudbuild-destroy.yaml
 ```
 
 # Running on local machine - leveraging docker image only
